@@ -13,7 +13,7 @@
 			],
 			"program": "${workspaceFolder}\\dynamite-cli.js",
 			"args": [
-				"${workspaceFolder}\\RNDBot.js",
+				"${workspaceFolder}\\dist\\RNDBot.js",
 				"${workspaceFolder}\\tests\\randoBot.js"
 			]
 		}
