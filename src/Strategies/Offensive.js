@@ -24,7 +24,7 @@ export class Offensive extends Strategy {
 
 		const dynamiteToWinTimeConcentration = this.gameState.dynamite / this.gameState.minRoundsUntilWinner();
 		const chanceOfWater = this.enemyWaterPlayed / totalPlays;
-		this.confidence = dynamiteToWinTimeConcentration + (1 - chanceOfWater);
+		this.confidence = dynamiteToWinTimeConcentration * (1 - chanceOfWater);
 	}
 
 	makeMove() {
