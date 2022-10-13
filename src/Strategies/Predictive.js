@@ -1,32 +1,17 @@
 import { Strategy } from "./Strategy";
 import { randomBasicMove } from "../utils";
+import { PredictionWindow } from "../PredictionWindow";
 
 export class Predictive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.bins = {
-			R: { count: 0, percentage: 0 },
-			P: { count: 0, percentage: 0 },
-			S: { count: 0, percentage: 0 },
-			D: { count: 0, percentage: 0 },
-			W: { count: 0, percentage: 0 }
-		};
+		this.predictionWindow = new PredictionWindow();
 	}
 
 	handleState() {
-		const totalPlays = this.gameState.getNumRounds();
-		if (totalPlays === 0) {
-			return;
-		}
-
-		this.bins[this.gameState.getLastRound().p2].count++;
-
-		Object.values(this.bins).forEach(bin => {
-			bin.percentage = bin.count / totalPlays;
-		});
-
-		this.confidence = Object.values(this.bins).map(bin => bin.percentage).reduce((a, b) => a > b ? a : b);
+		this.predictionWindow.update(this.gameState.rounds);
+		this.confidence = this.predictionWindow.getMostLikelyPlayPercentage();
 	}
 
 	makeMove() {
@@ -37,7 +22,7 @@ export class Predictive extends Strategy {
 		let uniformRandom0 = Math.random();
 		const uniformRandom1 = Math.random();
 
-		for (const [predictedPlay, playInfo] of Object.entries(this.bins)) {
+		for (const [predictedPlay, playInfo] of Object.entries(this.predictionWindow.bins)) {
 			if (uniformRandom0 < playInfo.percentage) {
 				const isBeatenBy = this.gameState.rules.isBeatenBy[predictedPlay];
 
