@@ -1,5 +1,5 @@
 export class PredictionWindow {
-	constructor(maxRounds = 8) {
+	constructor(maxRounds) {
 		this.maxRounds = maxRounds;
 
 		this.bins = {

@@ -27,8 +27,6 @@ class Bot {
 			totalConfidence += strategy.confidence;
 		});
 
-		console.log(totalConfidence);
-
 		if (totalConfidence === 0) { // Need epsilon here? does js approximately equate floats?
 			move = randomBasicMove();
 		} else {

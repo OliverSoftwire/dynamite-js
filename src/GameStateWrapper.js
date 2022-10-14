@@ -1,4 +1,5 @@
 import { ROUNDS_NEEDED_TO_WIN, ROUNDS_LIMIT, DYNAMITE_LIMIT } from "./constants";
+import { PredictionWindow } from "./PredictionWindow";
 
 export class GameStateWrapper {
 	constructor(rules) {
@@ -6,6 +7,7 @@ export class GameStateWrapper {
 		this.opponentDynamite = DYNAMITE_LIMIT;
 
 		this.rounds = [];
+		this.lastRound = undefined;
 
 		this.roundsWon = 0;
 		this.roundsLost = 0;
@@ -14,6 +16,20 @@ export class GameStateWrapper {
 		this.pointsAvailable = 1;
 
 		this.rules = rules;
+
+		this.predictionWindows = [];
+	}
+
+	getNumRounds() {
+		return this.rounds.length;
+	}
+
+	getLastRound() {
+		if (this.lastRound === undefined) {
+			throw "No rounds have been played yet";
+		}
+
+		return this.lastRound;
 	}
 
 	minRoundsUntilWinner() {
@@ -27,25 +43,29 @@ export class GameStateWrapper {
 		return this.minRoundsUntilWinner() + this.roundsPlayed <= ROUNDS_LIMIT;
 	}
 
-	processRounds(rounds) {
-		this.rounds = rounds;
+	newPredictionWindow(maxRounds = 8) {
+		const window = new PredictionWindow(maxRounds);
+		this.predictionWindows.push();
+		return window;
+	}
 
-		if (rounds.length === 0) {
-			return;
-		}
+	updatePredictionWindows() {
+		this.predictionWindows.forEach(window => window.update(this.rounds));
+	}
 
-		const lastRound = rounds[rounds.length - 1];
-		
-		if (lastRound.p1 === "D") {
+	updateDynamite() {
+		if (this.lastRound.p1 === "D") {
 			this.dynamite--;
 		}
 
-		if (lastRound.p2 === "D") {
+		if (this.lastRound.p2 === "D") {
 			this.opponentDynamite--;
 		}
+	}
 
-		if (lastRound.p1 !== lastRound.p2) {
-			if (this.rules.aBeatsB(lastRound.p1, lastRound.p2)) {
+	updateResults() {
+		if (this.lastRound.p1 !== this.lastRound.p2) {
+			if (this.rules.aBeatsB(this.lastRound.p1, this.lastRound.p2)) {
 				this.roundsWon++;
 			} else {
 				this.roundsLost++;
@@ -55,19 +75,20 @@ export class GameStateWrapper {
 		} else {
 			this.pointsAvailable++;
 		}
-
-		this.roundsPlayed++;
 	}
 
-	getNumRounds() {
-		return this.rounds.length;
-	}
-
-	getLastRound() {
-		if (this.rounds.length === 0) {
-			throw "No rounds have been played yet";
+	processRounds(rounds) {
+		if (rounds.length === 0) {
+			return;
 		}
 
-		return this.rounds[this.rounds.length - 1];
+		this.rounds = rounds;
+		this.lastRound = rounds[rounds.length - 1];
+		
+		this.updateDynamite();
+		this.updateResults();
+		this.updatePredictionWindows();
+
+		this.roundsPlayed++;
 	}
 }

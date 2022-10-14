@@ -6,11 +6,10 @@ export class Predictive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.predictionWindow = new PredictionWindow();
+		this.predictionWindow = gameState.newPredictionWindow();
 	}
 
 	handleState() {
-		this.predictionWindow.update(this.gameState.rounds);
 		this.confidence = this.predictionWindow.getMostLikelyPlayPercentage();
 	}
 
