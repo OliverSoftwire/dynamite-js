@@ -1,4 +1,4 @@
-import { ROUNDS_NEEDED_TO_WIN, ROUNDS_LIMIT, DYNAMITE_LIMIT } from "./constants";
+import { ROUNDS_NEEDED_TO_WIN, DYNAMITE_LIMIT } from "./constants";
 import { PredictionWindow } from "./PredictionWindow";
 
 export class GameStateWrapper {
@@ -38,7 +38,7 @@ export class GameStateWrapper {
 
 	minRoundsUntilWinner() {
 		const neededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;
-		const opponentNeededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;
+		const opponentNeededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsLost;
 
 		return Math.min(neededToWin, opponentNeededToWin);
 	}

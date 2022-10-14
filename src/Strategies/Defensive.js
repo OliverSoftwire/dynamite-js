@@ -1,4 +1,3 @@
-import { DYNAMITE_LIMIT } from "../constants";
 import { Strategy } from "./Strategy";
 
 export class Defensive extends Strategy {

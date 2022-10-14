@@ -1,13 +1,9 @@
-const moves = ["R", "P", "S", "D", "W"];
-let dynamite = 100
+const moves = ["P", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"];
+let rounds = 0;
 
 class Bot {
 	makeMove(gamestate) {
-		if (dynamite <= 0) {
-			return "R";
-		}
-		dynamite--;
-		return "D";
+		return moves[rounds++ % moves.length];
 	}
 }
 
