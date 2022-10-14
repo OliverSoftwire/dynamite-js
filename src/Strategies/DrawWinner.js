@@ -16,6 +16,6 @@ export class DrawWinner extends Strategy {
 
 	makeMove() {
 		const mostLikelyPlay = this.predictionWindow.getMostLikelyPlay();
-		return mostLikelyPlay === "W" ? randomBasicMove() : "D";
+		return mostLikelyPlay === "W" || this.gameState.dynamite <= 0 ? randomBasicMove() : "D";
 	}
 }
