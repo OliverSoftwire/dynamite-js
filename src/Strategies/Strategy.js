@@ -4,7 +4,7 @@ export class Strategy {
 		this.confidence = 0;
 	}
 
-	handleState() {
+	onRoundStart() {
 		return;
 	}
 }

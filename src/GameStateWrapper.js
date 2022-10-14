@@ -32,6 +32,10 @@ export class GameStateWrapper {
 		return this.lastRound;
 	}
 
+	hasRoundBeenPlayed() {
+		return this.rounds.length > 0;
+	}
+
 	minRoundsUntilWinner() {
 		const neededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;
 		const opponentNeededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;

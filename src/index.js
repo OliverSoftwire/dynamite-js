@@ -18,12 +18,15 @@ const strategies = [
 class Bot {
     makeMove(gamestate) {
 		gameStateWrapper.processRounds(gamestate.rounds);
+		if (!gameStateWrapper.hasRoundBeenPlayed()) {
+			return randomBasicMove();
+		}
 
 		let totalConfidence = 0;
-		let move = undefined; // Fallback move
+		let move = undefined;
 
 		strategies.forEach(strategy => {
-			strategy.handleState(gameStateWrapper);
+			strategy.onRoundStart(gameStateWrapper);
 			totalConfidence += strategy.confidence;
 		});
 

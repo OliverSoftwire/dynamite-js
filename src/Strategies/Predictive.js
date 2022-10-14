@@ -9,7 +9,7 @@ export class Predictive extends Strategy {
 		this.predictionWindow = gameState.newPredictionWindow(6);
 	}
 
-	handleState() {
+	onRoundStart() {
 		this.confidence = this.predictionWindow.getMostLikelyPlayPercentage();
 	}
 

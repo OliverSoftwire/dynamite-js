@@ -8,12 +8,7 @@ export class Offensive extends Strategy {
 		this.predictionWindow = gameState.newPredictionWindow(10);
 	}
 
-	handleState() {
-		const totalPlays = this.gameState.getNumRounds();
-		if (totalPlays === 0) {
-			return;
-		}
-
+	onRoundStart() {
 		if (this.gameState.dynamite <= 0) {
 			this.confidence = 0;
 			return;

@@ -8,12 +8,7 @@ export class Defensive extends Strategy {
 		this.predictionWindow = gameState.newPredictionWindow(8);
 	}
 
-	handleState() {
-		const totalPlays = this.gameState.getNumRounds();
-		if (totalPlays === 0) {
-			return;
-		}
-
+	onRoundStart() {
 		if (this.gameState.opponentDynamite <= 0) {
 			this.confidence = 0;
 			return;

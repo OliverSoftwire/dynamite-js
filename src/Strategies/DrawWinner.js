@@ -10,7 +10,7 @@ export class DrawWinner extends Strategy {
 		this.predictionWindow = gameState.newPredictionWindow();
 	}
 
-	handleState() {
+	onRoundStart() {
 		this.confidence = this.gameState.pointsAvailable - 1;
 	}
 
