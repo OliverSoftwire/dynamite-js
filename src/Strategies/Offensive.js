@@ -5,7 +5,7 @@ export class Offensive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.predictionWindow = gameState.newPredictionWindow(4);
+		this.predictionWindow = gameState.newPredictionWindow(10);
 	}
 
 	handleState() {
@@ -19,8 +19,8 @@ export class Offensive extends Strategy {
 			return;
 		}
 
-		const dynamiteLeftPercentage = this.gameState.dynamite / DYNAMITE_LIMIT;
-		this.confidence = dynamiteLeftPercentage * (1 - this.predictionWindow.getPlayPercentage("W"));
+		const chanceOpponentBeatsDynamite = this.predictionWindow.getPlayPercentage("W") + this.predictionWindow.getPlayPercentage("D");
+		this.confidence = this.gameState.dynamite / this.gameState.minRoundsUntilWinner() * (1 - chanceOpponentBeatsDynamite);
 	}
 
 	makeMove() {
