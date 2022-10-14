@@ -5,56 +5,53 @@ import { Offensive, Defensive, Predictive, DrawWinner } from "./Strategies";
 
 import { randomBasicMove } from "./utils";
 
-const rules = new Rules();
-
-const gameStateWrapper = new GameStateWrapper(rules);
-
-const strategies = [
-	new Predictive(gameStateWrapper),
-	new Offensive(gameStateWrapper),
-	new DrawWinner(gameStateWrapper)
-];
-
 class Bot {
+	constructor() {
+		this.gameState = new GameStateWrapper(new Rules());
+
+		this.strategies = [
+			new Predictive(this.gameState),
+			new Offensive(this.gameState),
+			new Defensive(this.gameState),
+			new DrawWinner(this.gameState)
+		];
+	}
+
+	checkDynamite(move) {
+		if (move === "D" && this.gameState.dynamite <= 0) {
+			throw "Tried to use too much dynamite";
+		}
+	}
+
     makeMove(gamestate) {
-		gameStateWrapper.processRounds(gamestate.rounds);
-		if (!gameStateWrapper.hasRoundBeenPlayed()) {
+		this.gameState.processRounds(gamestate.rounds);
+		if (!this.gameState.hasRoundBeenPlayed()) {
 			return randomBasicMove();
 		}
 
 		let totalConfidence = 0;
-		let move = undefined;
 
-		strategies.forEach(strategy => {
-			strategy.onRoundStart(gameStateWrapper);
+		this.strategies.forEach(strategy => {
+			strategy.onRoundStart(this.gameState);
 			totalConfidence += strategy.confidence;
 		});
 
 		if (totalConfidence === 0) { // Need epsilon here? does js approximately equate floats?
-			move = randomBasicMove();
+			return randomBasicMove();
 		} else {
 			let strategyProbability = Math.random();
-			for (const strategy of strategies) {
+			for (const strategy of this.strategies) {
 				const renormalisedConfidence = strategy.confidence / totalConfidence;
 
 				if (strategyProbability < renormalisedConfidence) {
-					move = strategy.makeMove();
-					break;
+					const move = strategy.makeMove();
+					this.checkDynamite(move);
+					return move;
 				}
 				
 				strategyProbability -= renormalisedConfidence;
 			}
 		}
-
-		if (move === undefined) {
-			throw "Missed all strategies, totalConfidence === 0 check didn't work";
-		}
-
-		if (move === "D" && gameStateWrapper.dynamite <= 0) {
-			throw "Tried to use too much dynamite";
-		}
-
-		return move;
     }
 }
 
