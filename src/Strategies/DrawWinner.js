@@ -1,8 +1,7 @@
 import { Strategy } from "./Strategy";
 import { randomBasicMove } from "../utils";
 
-const POINTS_REFERENCE_WEIGHT = 5;
-const LIKELY_PLAY_THRESHOLD = 0.8;
+const LIKELY_PLAY_THRESHOLD = 0.5;
 
 export class DrawWinner extends Strategy {
 	constructor(gameState) {
@@ -12,12 +11,12 @@ export class DrawWinner extends Strategy {
 	}
 
 	handleState() {
-		this.confidence = (this.gameState.pointsAvailable - 1) / POINTS_REFERENCE_WEIGHT;
+		this.confidence = this.gameState.pointsAvailable - 1;
 	}
 
 	makeMove() {
 		const mostLikelyPlay = this.predictionWindow.getMostLikelyPlay();
-		const mostLikelyPlayPercentage = this.predictionWindow.getMostLikelyPlayPercentage();
+		const mostLikelyPlayPercentage = this.predictionWindow.getPlayPercentage(mostLikelyPlay);
 
 		if (mostLikelyPlayPercentage > LIKELY_PLAY_THRESHOLD) {
 			if (mostLikelyPlay === "W") {
