@@ -32,17 +32,6 @@ export class GameStateWrapper {
 		return this.lastRound;
 	}
 
-	minRoundsUntilWinner() {
-		const neededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;
-		const opponentNeededToWin = ROUNDS_NEEDED_TO_WIN - this.roundsWon;
-
-		return Math.min(neededToWin, opponentNeededToWin);
-	}
-
-	playerCanWin() {
-		return this.minRoundsUntilWinner() + this.roundsPlayed <= ROUNDS_LIMIT;
-	}
-
 	newPredictionWindow(maxRounds = 8) {
 		const window = new PredictionWindow(maxRounds);
 		this.predictionWindows.push(window);
