@@ -15,14 +15,7 @@ export class DrawWinner extends Strategy {
 	}
 
 	makeMove() {
-		const opponentPrefersDynamite = this.predictionWindow.getNumPlays("D") > this.predictionWindow.getNumPlays("W");
-		if (opponentPrefersDynamite && this.gameState.opponentDynamite > 0) {
-			return "W";
-		}
-		if (!opponentPrefersDynamite && this.gameState.dynamite > 0) {
-			return "D";
-		}
-
-		return randomBasicMove();
+		const mostLikelyPlay = this.predictionWindow.getMostLikelyPlay();
+		return mostLikelyPlay === "W" ? randomBasicMove() : "D";
 	}
 }
