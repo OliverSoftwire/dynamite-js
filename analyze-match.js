@@ -68,7 +68,6 @@ rounds.forEach(round => {
 	}
 
 	if (rules[p1].includes(p2)) {
-		console.log("Won");
 		wins[p2].registerPlay(p1);
 		totalWins++;
 	} else {
