@@ -4,7 +4,7 @@ export class Offensive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.enemyWaterPlayed = 0;
+		this.predictionWindow = gameState.newPredictionWindow();
 	}
 
 	handleState() {
@@ -18,13 +18,8 @@ export class Offensive extends Strategy {
 			return;
 		}
 
-		if (this.gameState.getLastRound().p2 === "W") {
-			this.enemyWaterPlayed++;
-		}
-
 		const dynamiteToWinTimeConcentration = this.gameState.dynamite / this.gameState.minRoundsUntilWinner();
-		const chanceOfWater = this.enemyWaterPlayed / totalPlays;
-		this.confidence = dynamiteToWinTimeConcentration * (1 - chanceOfWater);
+		this.confidence = dynamiteToWinTimeConcentration * (1 - this.predictionWindow.getPlayPercentage("W"));
 	}
 
 	makeMove() {
