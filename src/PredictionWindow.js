@@ -44,7 +44,7 @@ export class PredictionWindow {
 	}
 
 	getNumPlays(play) {
-		return this.bins[play];
+		return this.bins[play].count;
 	}
 
 	getPlayPercentage(play) {
