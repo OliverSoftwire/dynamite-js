@@ -14,10 +14,6 @@ export class Predictive extends Strategy {
 	}
 
 	makeMove() {
-		if (this.gameState.getNumRounds() === 0) {
-			return randomBasicMove();
-		}
-
 		let uniformRandom0 = Math.random();
 		const uniformRandom1 = Math.random();
 
