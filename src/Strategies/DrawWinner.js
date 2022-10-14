@@ -29,6 +29,6 @@ export class DrawWinner extends Strategy {
 			}
 		}
 
-		return "D";
+		return this.gameState.dynamite > 0 ? "D" : randomBasicMove();
 	}
 }
