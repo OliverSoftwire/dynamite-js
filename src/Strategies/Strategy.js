@@ -7,4 +7,8 @@ export class Strategy {
 	onRoundStart() {
 		return;
 	}
+
+	makeMove() {
+		throw "Strategy does not override makeMove";
+	}
 }
