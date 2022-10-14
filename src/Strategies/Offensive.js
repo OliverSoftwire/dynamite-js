@@ -14,7 +14,8 @@ export class Offensive extends Strategy {
 		}
 
 		const chanceOpponentBeatsDynamite = this.predictionWindow.getPlayPercentage("W") + this.predictionWindow.getPlayPercentage("D");
-		this.confidence = this.gameState.dynamite / this.gameState.minRoundsUntilWinner() * (1 - chanceOpponentBeatsDynamite);
+		const roundsUntilWinnerWeight = this.gameState.dynamite / this.gameState.minRoundsUntilWinner();
+		this.confidence = (1 - chanceOpponentBeatsDynamite) * this.gameState.pointsAvailable * roundsUntilWinnerWeight;
 	}
 
 	makeMove() {

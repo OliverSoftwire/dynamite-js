@@ -32,6 +32,10 @@ export class GameStateWrapper {
 		return this.lastRound;
 	}
 
+	lastRoundWasDraw() {
+		return this.lastRound.p1 === this.lastRound.p2;
+	}
+
 	hasRoundBeenPlayed() {
 		return this.rounds.length > 0;
 	}

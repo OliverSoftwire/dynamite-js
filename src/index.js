@@ -5,6 +5,8 @@ import { Offensive, Defensive, Predictive, DrawWinner } from "./Strategies";
 
 import { randomBasicMove } from "./utils";
 
+import { MIN_CONFIDENCE } from "./constants";
+
 class Bot {
 	constructor() {
 		this.gameState = new GameStateWrapper(new Rules());
@@ -33,7 +35,12 @@ class Bot {
 
 		this.strategies.forEach(strategy => {
 			strategy.onRoundStart(this.gameState);
-			totalConfidence += strategy.confidence;
+
+			if (strategy.confidence > MIN_CONFIDENCE) {
+				totalConfidence += strategy.confidence;
+			} else {
+				strategy.confidence = 0;
+			}
 		});
 
 		if (totalConfidence === 0) { // Need epsilon here? does js approximately equate floats?

@@ -4,7 +4,7 @@ export class Defensive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.predictionWindow = gameState.newPredictionWindow(8);
+		this.predictionWindow = gameState.newPredictionWindow(16);
 	}
 
 	onRoundStart() {
@@ -14,7 +14,7 @@ export class Defensive extends Strategy {
 		}
 
 		const percentageDynamitePlayed = this.predictionWindow.getPlayPercentage("D");
-		return percentageDynamitePlayed * percentageDynamitePlayed;
+		this.confidence = percentageDynamitePlayed * percentageDynamitePlayed;
 	}
 
 	makeMove() {

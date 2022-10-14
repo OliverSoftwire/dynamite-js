@@ -2,3 +2,6 @@ node_modules/
 
 # webpack build dir
 dist/
+
+# Default filename for match results (for keeping something for analyzing in the repo's folder)
+/download.json

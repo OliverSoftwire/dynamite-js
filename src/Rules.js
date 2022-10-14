@@ -20,6 +20,6 @@ export class Rules {
 	}
 
 	aBeatsB(a, b) {
-		return b in this.beats[a];
+		return this.beats[a].includes(b);
 	}
 }
