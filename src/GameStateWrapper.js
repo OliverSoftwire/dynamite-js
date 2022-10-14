@@ -45,7 +45,7 @@ export class GameStateWrapper {
 
 	newPredictionWindow(maxRounds = 8) {
 		const window = new PredictionWindow(maxRounds);
-		this.predictionWindows.push();
+		this.predictionWindows.push(window);
 		return window;
 	}
 
