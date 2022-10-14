@@ -1,10 +1,11 @@
+import { DYNAMITE_LIMIT } from "../constants";
 import { Strategy } from "./Strategy";
 
 export class Offensive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.predictionWindow = gameState.newPredictionWindow();
+		this.predictionWindow = gameState.newPredictionWindow(4);
 	}
 
 	handleState() {
@@ -18,8 +19,8 @@ export class Offensive extends Strategy {
 			return;
 		}
 
-		const dynamiteToWinTimeConcentration = this.gameState.dynamite / this.gameState.minRoundsUntilWinner();
-		this.confidence = dynamiteToWinTimeConcentration * (1 - this.predictionWindow.getPlayPercentage("W"));
+		const dynamiteLeftPercentage = this.gameState.dynamite / DYNAMITE_LIMIT;
+		this.confidence = dynamiteLeftPercentage * (1 - this.predictionWindow.getPlayPercentage("W"));
 	}
 
 	makeMove() {

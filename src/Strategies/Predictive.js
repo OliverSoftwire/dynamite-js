@@ -6,7 +6,7 @@ export class Predictive extends Strategy {
 	constructor(gameState) {
 		super(gameState);
 
-		this.predictionWindow = gameState.newPredictionWindow(16);
+		this.predictionWindow = gameState.newPredictionWindow(6);
 	}
 
 	handleState() {
