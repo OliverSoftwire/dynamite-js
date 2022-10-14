@@ -68,10 +68,10 @@ rounds.forEach(round => {
 	}
 
 	if (rules[p1].includes(p2)) {
-		wins[p2].registerPlay(p1);
+		wins[p1].registerPlay(p2);
 		totalWins++;
 	} else {
-		losses[p2].registerPlay(p1);
+		losses[p1].registerPlay(p2);
 		totalLosses++;
 	}
 });
@@ -79,13 +79,13 @@ rounds.forEach(round => {
 console.log("Matches we won:");
 for (const [opponentPlay, ourPlays] of Object.entries(wins)) {
 	console.log(
-		`${opponentPlay}: ${ourPlays.totalCount} (${Math.round(ourPlays.totalCount / totalWins * 100)}%), favourite play was ${ourPlays.getFavouritePlay()}`
+		`${opponentPlay}: ${ourPlays.totalCount} (${Math.round(ourPlays.totalCount / totalWins * 100)}%), opponent's favourite play was ${ourPlays.getFavouritePlay()}`
 	);
 }
 
 console.log("\nMatches we lost");
 for (const [opponentPlay, ourPlays] of Object.entries(losses)) {
 	console.log(
-		`${opponentPlay}: ${ourPlays.totalCount} (${Math.round(ourPlays.totalCount / totalWins * 100)}%), favourite play was ${ourPlays.getFavouritePlay()}`
+		`${opponentPlay}: ${ourPlays.totalCount} (${Math.round(ourPlays.totalCount / totalWins * 100)}%), opponent's favourite play was ${ourPlays.getFavouritePlay()}`
 	);
 }
