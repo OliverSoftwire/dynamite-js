@@ -14,12 +14,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 8.10
+          node-version: "8.10"
+
+      - name: Install
+        run: npm ci
 
       - name: Build
-        run: |
-          npm ci
-          npm run build
+        run: npm run build
       
       - name: Upload artefact
         uses: actions/upload-artifact@v3
